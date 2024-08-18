@@ -1,0 +1,2 @@
+ACCOMMODATIONS_TABLE_NAME = "accommodations"
+REVIEWS_TABLE_NAME = "reviews"
