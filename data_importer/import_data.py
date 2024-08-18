@@ -33,7 +33,7 @@ def load_objects(objects_file: click.File, klass: Type[BaseModel]) -> list[BaseM
     type=click.Choice(["accommodations", "reviews"], case_sensitive=False),
     required=True,
 )
-@click.argument("objects_file", type=click.File("r"), required=True)
+@click.argument("objects_file", type=click.File("r", encoding="utf-8"), required=True)
 def import_data(object_type: str, objects_file: click.File):
     objects = load_objects(objects_file, OBJECT_TYPE_TO_CLASS[object_type])
     session_factory = create_session_factory()
