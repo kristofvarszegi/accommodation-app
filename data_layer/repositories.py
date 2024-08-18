@@ -1,23 +1,42 @@
 import abc
 import uuid
-from data_layer import models
+
+from data_layer import schemas
 
 
 class IAccommodationRepository(abc.ABC):
+    @staticmethod
     @abc.abstractmethod
-    def add(self, accommodation: models.Accommodation):
+    def add(session, accommodation: schemas.Accommodation):
         raise NotImplementedError
 
+    @staticmethod
     @abc.abstractmethod
-    def get(self, accommodation_id: uuid.UUID) -> models.Accommodation:
+    def get(session, accommodation_id: uuid.UUID) -> schemas.Accommodation:
+        raise NotImplementedError
+
+    @staticmethod
+    @abc.abstractmethod
+    def list(session, skip: int, limit: int) -> list[schemas.Accommodation]:
         raise NotImplementedError
 
 
 class IReviewRepository(abc.ABC):
+    @staticmethod
     @abc.abstractmethod
-    def add(self, review: models.Review):
+    def add(session, review: schemas.Review):
         raise NotImplementedError
 
+    @staticmethod
     @abc.abstractmethod
-    def get(self, review_id: uuid.UUID) -> models.Review:
+    def get_for_accommodation(
+        session, accommodation_id: uuid.UUID
+    ) -> list[schemas.Review]:
+        raise NotImplementedError
+
+    @staticmethod
+    @abc.abstractmethod
+    def get_one_review_for_accommodation(
+        session, accommodation_id: uuid.UUID
+    ) -> schemas.Review:
         raise NotImplementedError
