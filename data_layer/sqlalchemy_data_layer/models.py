@@ -1,8 +1,7 @@
 import uuid
 
 from sqlalchemy import UUID, Column, Float, ForeignKey
-from sqlalchemy.ext.declarative import declarative_base
-from sqlalchemy.orm import Mapped, mapped_column, relationship
+from sqlalchemy.orm import Mapped, declarative_base, mapped_column, relationship
 
 from data_layer.sqlalchemy_data_layer.constants import (
     ACCOMMODATIONS_TABLE_NAME,

@@ -16,7 +16,7 @@ app = FastAPI()
 
 @app.get("/")
 async def root():
-    return {"message": "Accommodation API"}
+    return {"message": "Accommodation Data API"}
 
 
 @app.get("/accommodations/", response_model=list[schemas.Accommodation])
@@ -52,10 +52,10 @@ def get_reviews_for_accommodation(
     session=Depends(create_session),
     repository: IReviewRepository = Depends(get_review_repository),
 ):
-    # TODO Raise 404 if the accommodation does not exist
+    # TODO Raise 404 if the accommodation does not exist & unit test
 
-    reviews = repository.get_for_accommodation(session, accommodation_id)
-    if reviews is None:
+    reviews = repository.list_for_accommodation(session, accommodation_id)
+    if len(reviews) == 0:  # TODO Test
         raise HTTPException(
             status_code=HTTPStatus.NOT_FOUND,
             detail="No reviews found for accommodation",
@@ -64,18 +64,26 @@ def get_reviews_for_accommodation(
 
 
 @app.get(
-    "/accommodations/{accommodations_id}/one-review/", response_model=schemas.Review
+    "/accommodations/{accommodation_id}/reviews/{review_id}",
+    response_model=schemas.Review,
 )
-def get_one_review_for_accommodation(
-    accommodations_id: uuid.UUID,
+def get_review(
+    accommodation_id: uuid.UUID,
+    review_id: uuid.UUID,
     session=Depends(create_session),
     repository: IReviewRepository = Depends(get_review_repository),
 ):
-    # TODO Raise 404 if the accommodation does not exist
+    # TODO Raise 404 if the accommodation does not exist & unit test
 
-    review = repository.get_one_review_for_accommodation(session, accommodations_id)
-    if review is None:
+    review = repository.get(session, review_id)
+
+    if review is None:  # TODO Test
+        raise HTTPException(status_code=HTTPStatus.NOT_FOUND, detail="Review not found")
+
+    if review.accommodation_id != accommodation_id:
         raise HTTPException(
-            status_code=HTTPStatus.NOT_FOUND, detail="No review found for accommodation"
+            status_code=HTTPStatus.NOT_FOUND,
+            detail="Review not found for accommodation",
         )
+
     return review
