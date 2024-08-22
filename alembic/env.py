@@ -15,7 +15,7 @@ if config.config_file_name is not None:
 
 # add your model's MetaData object here
 # for 'autogenerate' support
-from data_layer.sqlalchemy_repository.models import Base
+from data_layer.sqlalchemy_data_layer.models import Base
 
 target_metadata = Base.metadata
 

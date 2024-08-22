@@ -29,17 +29,57 @@ data_layer.config
 - API endpoint versioning
 - API documentation (using e.g. Swagger)
 - GitHub Actions: Test; Build and deploy to the cloud
+- Define SQLAlchemy models via mapping from their corresponding Pydantic models
 
 ## Quickstart
 
 TODO
 
-```json
-python data_importer/import_data.py accommodations ../Backend\ Tech\ Assignment/accommodations.json
+Ubuntu 24.04 on WSL 2
+
+https://docs.docker.com/engine/install/ubuntu/
+
+```bash
+docker run --name accommodation-app-postgres -e POSTGRES_PASSWORD=12345678 -d -p 5432:5432 postgres
 ```
 
-```json
+```bash
+docker exec -it accommodation-app-postgres psql -h localhost -U postgres -p 5432
+```
+
+```sql
+CREATE DATABASE <DB name>;
+CREATE USER <DB username> WITH PASSWORD '<DB password>';
+ALTER DATABASE <DB name> OWNER TO <DB username>;
+```
+
+```bash
+python3 -m venv .venv
+source .venv/bin/activate
+pip install -r requirements.txt
+```
+
+.env file:
+
+```
+DB_USERNAME=<DB username>
+DB_PASSWORD=<DB password>
+DB_HOST=localhost
+DB_NAME=<DB name>
+```
+
+```bash
+export PYTHONPATH=$PWD
+```
+
+```bash
+python data_importer/import_data.py accommodations ../Backend\ Tech\ Assignment/accommodations.json
 python data_importer/import_data.py reviews ../Backend\ Tech\ Assignment/reviews.json
+```
+
+```sql
+SELECT * FROM accommodations;
+SELECT * FROM reviews;
 ```
 
 ```bash
@@ -65,18 +105,6 @@ curl http://localhost:8000/accommodations/dddaebf8-2e22-4699-8db0-f10fad2f2f8f/r
 ```bash
 curl http://localhost:8000/accommodations/dddaebf8-2e22-4699-8db0-f10fad2f2f8f/one-review/
 ```
-
-## Creating development environment
-
-TODO
-
-venv
-
-requirements_dev.txt
-
-postgres DB, user - with docker-compose/extended image
-
-.env
 
 ## Sources
 
