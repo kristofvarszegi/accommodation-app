@@ -8,22 +8,22 @@ data_layer.config
 
 ## Implementation status
 
-| Component        | Feature/Task                             | Status                 | Priority     |
-| ---------------- | ---------------------------------------- | ---------------------- | ------------ |
-| Data import tool | Supports importing accommodations        | TODO tests             | Must         |
-| Data import tool | Supports importing reviews               | TODO sub-scores, tests | Must         |
-| Data service     | List all accommodations                  | Done                   | Must         |
-| Data service     | Get a single accommodation               | Done                   | Must         |
-| Data service     | List all reviews for an accommodation    | Done                   | Must         |
-| Data service     | Get a single review for an accommodation | Done                   | Must         |
-| Scoring service  | TODO                                     | TODO                   | Must         |
-| Scoring service  | Optimize score calculation               | TODO                   | Nice to have |
-| General          | Containerize/Deploy                      | TODO                   | Nice to have |
+| Component        | Feature/Task                             | Status                  | Priority     |
+| ---------------- | ---------------------------------------- | ----------------------- | ------------ |
+| Data import tool | Supports importing accommodations        | TODO More fields; tests | Must         |
+| Data import tool | Supports importing reviews               | TODO Sub-scores; tests  | Must         |
+| Data service     | List all accommodations                  | TODO                    | Must         |
+| Data service     | Get a single accommodation               | Done                    | Must         |
+| Data service     | List all reviews for an accommodation    | Done                    | Must         |
+| Data service     | Get a single review for an accommodation | Done                    | Must         |
+| Scoring service  | Get rating                               | TODO Sub-scores         | Must         |
+| Scoring service  | Optimize score calculation               | TODO                    | Nice to have |
+| General          | Containerize/Deploy                      | TODO                    | Nice to have |
 
 ## A few possible future improvements e.g on the way to production
 
 - Create mock DB for testing
-- Maximal test coverage in various terms e.g. execution paths, partitions
+- Maximal test coverage in terms of e.g. execution paths, partitions
 - Automated end-to-end tests
 - Splitting requirements.txt for data_importer, data_service, scoring_service, dev
 - API endpoint versioning
@@ -42,13 +42,29 @@ python data_importer/import_data.py accommodations ../Backend\ Tech\ Assignment/
 python data_importer/import_data.py reviews ../Backend\ Tech\ Assignment/reviews.json
 ```
 
+```bash
+fastapi run data_service_fastapi/main.py
+```
+
+```bash
+fastapi run scoring_service_fastapi/main.py
+```
+
+```bash
 curl http://localhost:8000/accommodations/
+```
 
+```bash
 curl http://localhost:8000/accommodations/dddaebf8-2e22-4699-8db0-f10fad2f2f8f/
+```
 
+```bash
 curl http://localhost:8000/accommodations/dddaebf8-2e22-4699-8db0-f10fad2f2f8f/reviews/
+```
 
+```bash
 curl http://localhost:8000/accommodations/dddaebf8-2e22-4699-8db0-f10fad2f2f8f/one-review/
+```
 
 ## Creating development environment
 

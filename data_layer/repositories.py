@@ -29,14 +29,12 @@ class IReviewRepository(abc.ABC):
 
     @staticmethod
     @abc.abstractmethod
-    def get_for_accommodation(
-        session, accommodation_id: uuid.UUID
-    ) -> list[schemas.Review]:
+    def get(session, review_id: uuid.UUID) -> schemas.Review:
         raise NotImplementedError
 
     @staticmethod
     @abc.abstractmethod
-    def get_one_review_for_accommodation(
+    def list_for_accommodation(
         session, accommodation_id: uuid.UUID
-    ) -> schemas.Review:
+    ) -> list[schemas.Review]:
         raise NotImplementedError

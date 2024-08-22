@@ -40,7 +40,12 @@ class SqlAlchemyReviewRepository(IReviewRepository):
         session.add(SqlAlchemyReview(**review.model_dump()))
 
     @staticmethod
-    def get_for_accommodation(
+    def get(session: Session, review_id: uuid.UUID) -> schemas.Review:
+        review = session.query(SqlAlchemyReview).filter_by(review_id=review_id).first()
+        return None if review is None else schemas.Review(**review.__dict__)
+
+    @staticmethod
+    def list_for_accommodation(
         session, accommodation_id: uuid.UUID
     ) -> list[schemas.Review]:
         reviews = (
@@ -50,17 +55,6 @@ class SqlAlchemyReviewRepository(IReviewRepository):
         )
         reviews = [schemas.Review(**review.__dict__) for review in reviews]
         return reviews
-
-    @staticmethod
-    def get_one_review_for_accommodation(
-        session: Session, accommodation_id: uuid.UUID
-    ) -> schemas.Review:
-        review = (
-            session.query(SqlAlchemyReview)
-            .filter_by(accommodation_id=accommodation_id)
-            .first()
-        )
-        return None if review is None else schemas.Review(**review.__dict__)
 
 
 def get_accommodation_repository():
