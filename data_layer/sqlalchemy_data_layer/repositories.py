@@ -4,7 +4,6 @@ from sqlalchemy.orm import Session
 
 from data_layer import schemas
 from data_layer.repositories import IAccommodationRepository, IReviewRepository
-from data_layer.sqlalchemy_data_layer.database import session_factory
 from data_layer.sqlalchemy_data_layer.models import (
     SqlAlchemyAccommodation,
     SqlAlchemyReview,
@@ -37,7 +36,13 @@ class SqlAlchemyAccommodationRepository(IAccommodationRepository):
 class SqlAlchemyReviewRepository(IReviewRepository):
     @staticmethod
     def add(session: Session, review: schemas.Review):
-        session.add(SqlAlchemyReview(**review.model_dump()))
+        fields = {
+            key: value
+            for key, value in review.model_dump().items()
+            if key != "score_aspects"
+        }
+        fields.update(review.score_aspects.model_dump())
+        session.add(SqlAlchemyReview(**fields))
 
     @staticmethod
     def get(session: Session, review_id: uuid.UUID) -> schemas.Review:

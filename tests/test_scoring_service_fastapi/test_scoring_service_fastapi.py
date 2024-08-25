@@ -20,25 +20,22 @@ def test_root():
 app.dependency_overrides[get_review_repository] = MockReviewRepository
 
 
-# TODO Also for the calculator function
 @freeze_time("2023-04-01")
-def test_get_accommodation_ratings():
+def test_get_scores():
     response = client.get(
-        "/accommodations/c9b7158b-1b07-4941-82d1-9ef8221e649d/general-score"
+        "/accommodations/c9b7158b-1b07-4941-82d1-9ef8221e649d/scores/"
     )
     assert response.status_code == HTTPStatus.OK
-    assert response.json() == {"generalScore": 8.63}
-
-
-# TODO Rather for just the calculator function
-@freeze_time("2100-01-01")
-def test_get_accommodation_ratings_when_all_reviews_are_old():
-    response = client.get(
-        "/accommodations/c9b7158b-1b07-4941-82d1-9ef8221e649d/general-score"
-    )
-    assert response.status_code == HTTPStatus.OK
-    assert response.json() == {"generalScore": 8.33}
-
-
-# TODO, Rather for just the calculator function
-# def test_get_accommodation_ratings_when_no_reviews_are_old():
+    assert response.json() == {
+        "generalScore": 8.63,
+        "scoreAspects": {
+            "childFriendly": 0.0,
+            "food": 0.0,
+            "hygiene": 0.0,
+            "location": 0.0,
+            "pool": 0.0,
+            "priceQuality": 0.0,
+            "room": 0.0,
+            "service": 0.0,
+        },
+    }
