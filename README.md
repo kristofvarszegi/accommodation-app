@@ -8,17 +8,18 @@ data_layer.config
 
 ## Implementation status
 
-| Component        | Feature/Task                             | Status                  | Priority     |
-| ---------------- | ---------------------------------------- | ----------------------- | ------------ |
-| Data import tool | Supports importing accommodations        | TODO More fields; Tests | Must         |
-| Data import tool | Supports importing reviews               | TODO More fields; Tests | Must         |
-| Data service     | List all accommodations                  | Done                    | Must         |
-| Data service     | Get a single accommodation               | Done                    | Must         |
-| Data service     | List all reviews for an accommodation    | Done                    | Must         |
-| Data service     | Get a single review for an accommodation | Done                    | Must         |
-| Scoring service  | Get rating                               | TODO Tests              | Must         |
-| Scoring service  | Optimize score calculation               | TODO                    | Nice to have |
-| General          | Containerize/Deploy                      | TODO                    | Nice to have |
+| Component        | Feature/Task                             | Status                  |
+| ---------------- | ---------------------------------------- | ----------------------- |
+| Data import tool | Supports importing accommodations        | TODO Tests              |
+| Data import tool | Supports importing reviews               | TODO Tests              |
+| Data service     | List all accommodations                  | Done                    |
+| Data service     | Get a single accommodation               | Done                    |
+| Data service     | List all reviews for an accommodation    | Done                    |
+| Data service     | Get a single review for an accommodation | Done                    |
+| Scoring service  | Get rating                               | TODO Tests              |
+| Scoring service  | Optimize score calculation               | TODO                    |
+| General          | Containerize/Deploy                      | TODO                    |
+| General          | Documentation                            | TODO                    |
 
 ## A few possible future improvements e.g on the way to production
 
@@ -104,7 +105,7 @@ curl http://localhost:8000/accommodations/dddaebf8-2e22-4699-8db0-f10fad2f2f8f/r
 ```
 
 ```bash
-curl http://localhost:8000/accommodations/dddaebf8-2e22-4699-8db0-f10fad2f2f8f/one-review/
+curl http://localhost:8000/accommodations/dddaebf8-2e22-4699-8db0-f10fad2f2f8f/reviews/4aa80891-ed4e-4419-9d17-c3a2965d53b6
 ```
 
 ## Sources

@@ -8,31 +8,43 @@ from data_layer.repositories import IAccommodationRepository, IReviewRepository
 
 
 class MockAccommodationRepository(IAccommodationRepository):
+    ACCOMMODATIONS = [
+        schemas.Accommodation(
+            id="c9b7158b-1b07-4941-82d1-9ef8221e649d",
+            default_price=11000,
+            name="Dummy Hotel 1",
+            popularity_score=10.1,
+            slug="dummy-hotel-1",
+            stars=1,
+            zoover_gold_award=False,
+        ),
+        schemas.Accommodation(
+            id="f4fec2d6-61af-4bfe-ae9f-2ec6881229cb",
+            default_price=22000,
+            name="Dummy Hotel 2",
+            popularity_score=20.2,
+            slug="dummy-hotel-2",
+            stars=2,
+            zoover_gold_award=True,
+        ),
+    ]
+
     @staticmethod
     def add(session, accommodation: schemas.Accommodation):
         raise NotImplementedError
 
     @staticmethod
     def get(session, accommodation_id: uuid.UUID) -> schemas.Accommodation:
-        if accommodation_id == uuid.UUID("f4fec2d6-61af-4bfe-ae9f-2ec6881229cb"):
-            return schemas.Accommodation(
-                id="f4fec2d6-61af-4bfe-ae9f-2ec6881229cb", name="Dummy Hotel 2"
-            )
-        else:
-            raise HTTPException(
-                status_code=HTTPStatus.NOT_FOUND, detail="Accommodation not found"
-            )
+        for accommodation in MockAccommodationRepository.ACCOMMODATIONS:
+            if accommodation.id == accommodation_id:
+                return accommodation
+        raise HTTPException(
+            status_code=HTTPStatus.NOT_FOUND, detail="Accommodation not found"
+        )
 
     @staticmethod
     def list(session, skip: int, limit: int) -> list[schemas.Accommodation]:
-        return [
-            schemas.Accommodation(
-                id="c9b7158b-1b07-4941-82d1-9ef8221e649d", name="Dummy Hotel 1"
-            ),
-            schemas.Accommodation(
-                id="f4fec2d6-61af-4bfe-ae9f-2ec6881229cb", name="Dummy Hotel 2"
-            ),
-        ]
+        return MockAccommodationRepository.ACCOMMODATIONS
 
 
 class MockReviewRepository(IReviewRepository):
@@ -43,6 +55,9 @@ class MockReviewRepository(IReviewRepository):
             accommodation_id=ACCOMMODATION_1_ID,
             created_at="2018-05-07T00:00:00.000Z",
             general_score=9.0,
+            text="Dummy text 1",
+            title="Dummy Title 1",
+            zoover_review_id=1000001,
             score_aspects=schemas.ScoreAspects().model_dump_json(),
         ),
         schemas.Review(
@@ -50,6 +65,9 @@ class MockReviewRepository(IReviewRepository):
             accommodation_id=ACCOMMODATION_1_ID,
             created_at="2018-05-26T00:00:00.000Z",
             general_score=8.0,
+            text="Dummy text 2",
+            title="Dummy Title 2",
+            zoover_review_id=2000002,
             score_aspects=schemas.ScoreAspects().model_dump_json(),
         ),
         schemas.Review(
@@ -57,6 +75,9 @@ class MockReviewRepository(IReviewRepository):
             accommodation_id=ACCOMMODATION_1_ID,
             created_at="2018-09-23T00:00:00.000Z",
             general_score=8.0,
+            text="Dummy text 3",
+            title="Dummy Title 3",
+            zoover_review_id=3000003,
             score_aspects=schemas.ScoreAspects().model_dump_json(),
         ),
         schemas.Review(
@@ -64,6 +85,9 @@ class MockReviewRepository(IReviewRepository):
             accommodation_id=ACCOMMODATION_1_ID,
             created_at="2018-10-03T00:00:00.000Z",
             general_score=9.0,
+            text="Dummy text 4",
+            title="Dummy Title 4",
+            zoover_review_id=4000004,
             score_aspects=schemas.ScoreAspects().model_dump_json(),
         ),
         schemas.Review(
@@ -71,6 +95,9 @@ class MockReviewRepository(IReviewRepository):
             accommodation_id=ACCOMMODATION_1_ID,
             created_at="2019-09-25T00:00:00.000Z",
             general_score=8.0,
+            text="Dummy text 5",
+            title="Dummy Title 5",
+            zoover_review_id=5000005,
             score_aspects=schemas.ScoreAspects().model_dump_json(),
         ),
         schemas.Review(
@@ -78,6 +105,9 @@ class MockReviewRepository(IReviewRepository):
             accommodation_id=ACCOMMODATION_1_ID,
             created_at="2020-06-26T00:00:00.000Z",
             general_score=7.0,
+            text="Dummy text 6",
+            title="Dummy Title 6",
+            zoover_review_id=6000006,
             score_aspects=schemas.ScoreAspects().model_dump_json(),
         ),
         schemas.Review(
@@ -85,6 +115,9 @@ class MockReviewRepository(IReviewRepository):
             accommodation_id=ACCOMMODATION_1_ID,
             created_at="2022-11-02T00:00:00.000Z",
             general_score=9.0,
+            text="Dummy text 7",
+            title="Dummy Title 7",
+            zoover_review_id=7000007,
             score_aspects=schemas.ScoreAspects().model_dump_json(),
         ),
         schemas.Review(
@@ -92,6 +125,9 @@ class MockReviewRepository(IReviewRepository):
             accommodation_id=ACCOMMODATION_1_ID,
             created_at="2023-01-06T00:00:00.000Z",
             general_score=9.0,
+            text="Dummy text 8",
+            title="Dummy Title 8",
+            zoover_review_id=8000008,
             score_aspects=schemas.ScoreAspects().model_dump_json(),
         ),
         schemas.Review(
@@ -99,6 +135,9 @@ class MockReviewRepository(IReviewRepository):
             accommodation_id=ACCOMMODATION_1_ID,
             created_at="2023-01-22T00:00:00.000Z",
             general_score=8.0,
+            text="Dummy text 9",
+            title="Dummy Title 9",
+            zoover_review_id=9000009,
             score_aspects=schemas.ScoreAspects().model_dump_json(),
         ),
     ]
