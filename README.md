@@ -42,11 +42,12 @@ Ubuntu 24.04 on WSL 2
 https://docs.docker.com/engine/install/ubuntu/
 
 ```bash
-docker run --name accommodation-app-postgres -e POSTGRES_PASSWORD=12345678 -d -p 5432:5432 postgres
+docker run -d --name accommodation-app-postgres -e POSTGRES_PASSWORD=12345678 -p 5432:5432 postgres
 ```
 
 ```bash
-docker exec -it accommodation-app-postgres psql -h localhost -U postgres -p 5432
+docker exec -it accommodation-app-postgres psql -h db -U postgres -p 5432
+docker exec -it accommodation-app-db-1 psql -h db -U dev -p 5432 -d accommodation_app
 ```
 
 ```sql
@@ -66,7 +67,7 @@ pip install -r requirements.txt
 ```
 DB_USERNAME=<DB username>
 DB_PASSWORD=<DB password>
-DB_HOST=localhost
+DB_HOST=<DB host>
 DB_NAME=<DB name>
 ```
 
@@ -90,6 +91,16 @@ fastapi run data_service_fastapi/main.py
 
 ```bash
 fastapi run scoring_service_fastapi/main.py
+```
+
+```bash
+docker build -t data-service-fastapi -f Dockerfile.data_service_fastapi .
+docker build -t scoring-service-fastapi -f Dockerfile.scoring_service_fastapi .
+```
+
+```bash
+docker run -d --name data-service-fastapi -p 80:80 data-service-fastapi
+docker run -d --name scoring-service-fastapi -p 80:80 scoring-service-fastapi
 ```
 
 ```bash

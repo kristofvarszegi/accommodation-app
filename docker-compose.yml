@@ -1,0 +1,26 @@
+services:
+
+  db:
+    environment:  # TODO DB credentials from secure store
+      - POSTGRES_USER=dev
+      - POSTGRES_PASSWORD=12345678
+      - POSTGRES_DB=accommodation_app
+    image: postgres:latest
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data/
+
+  data_service_fastapi:
+    build:
+      context: .
+      dockerfile: Dockerfile.data_service_fastapi
+    depends_on:
+      - db
+    ports:
+      - "80:80"
+    volumes:
+      - ./:/code:ro
+
+volumes:
+  postgres_data: 

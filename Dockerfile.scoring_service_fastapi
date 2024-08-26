@@ -1,0 +1,16 @@
+FROM python:3.12.3
+
+WORKDIR /code
+
+COPY ./requirements.txt /code/requirements.txt
+
+RUN pip install --no-cache-dir --upgrade -r /code/requirements.txt
+
+COPY ./data_layer /code/data_layer
+COPY ./scoring_service_fastapi /code/scoring_service_fastapi
+# TODO DB credentials from secure store
+COPY ./.env /code/.env
+
+ENV PYTHONPATH=/code
+
+CMD ["fastapi", "run", "scoring_service_fastapi/main.py", "--port", "80"]
