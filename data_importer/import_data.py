@@ -20,8 +20,12 @@ ITEM_TYPE_TO_REPOSITORY_CLASS = {
 
 def load_items(items_file: click.File, klass: Type[BaseModel]) -> list[BaseModel]:
     items = json.load(items_file)
-    items = [klass(**item) for item in items]
-    return items
+    # items = [klass(**item) for item in items]
+    new_items = []
+    for item in items:
+        instance = klass(**item)
+        new_items.append(instance)
+    return new_items
 
 
 @click.command()

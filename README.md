@@ -10,13 +10,13 @@ data_layer.config
 
 | Component        | Feature/Task                             | Status                  | Priority     |
 | ---------------- | ---------------------------------------- | ----------------------- | ------------ |
-| Data import tool | Supports importing accommodations        | TODO More fields; tests | Must         |
-| Data import tool | Supports importing reviews               | TODO Sub-scores; tests  | Must         |
-| Data service     | List all accommodations                  | TODO                    | Must         |
+| Data import tool | Supports importing accommodations        | TODO More fields; Tests | Must         |
+| Data import tool | Supports importing reviews               | TODO More fields; Tests | Must         |
+| Data service     | List all accommodations                  | Done                    | Must         |
 | Data service     | Get a single accommodation               | Done                    | Must         |
 | Data service     | List all reviews for an accommodation    | Done                    | Must         |
 | Data service     | Get a single review for an accommodation | Done                    | Must         |
-| Scoring service  | Get rating                               | TODO Sub-scores         | Must         |
+| Scoring service  | Get rating                               | TODO Tests              | Must         |
 | Scoring service  | Optimize score calculation               | TODO                    | Nice to have |
 | General          | Containerize/Deploy                      | TODO                    | Nice to have |
 
@@ -25,6 +25,7 @@ data_layer.config
 - Create mock DB for testing
 - Maximal test coverage in terms of e.g. execution paths, partitions
 - Automated end-to-end tests
+- Cache frequently requested accommodations and ratings
 - Splitting requirements.txt for data_importer, data_service, scoring_service, dev
 - API endpoint versioning
 - API documentation (using e.g. Swagger)

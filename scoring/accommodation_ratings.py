@@ -1,69 +1,88 @@
-import math  # TODO Is numpy faster?
-from datetime import date, datetime
+import math
+from datetime import date
+from functools import partial
+from typing import Optional
+
+import pandas as pd
 
 from data_layer import schemas
 
 SCORE_ROUNDING_NDIGITS = 2
 
-# Pre-compute ln values so only a lookup is needed when calculating ratings
-X_TO_LN_X = {x: math.log(x) for x in range(1, 25)}
+# Pre-compute weight values so only a lookup is needed when calculating scores
+AGE_MONTHS_TO_WEIGHT = {
+    age_months: math.log(25 - age_months) for age_months in range(0, 23)
+}
 OLD_REVIEWS_WEIGHT = math.log(1.77)
 
+DATE_LABEL = "date"
+GENERAL_SCORE_LABEL = "general_score"
+WEIGHT_LABEL = "weight"
 
-# TODO Tests
-def datetime_to_floored_months(datetime_: datetime) -> int:
-    return datetime_.year * 12 + datetime_.month
-
-
-# TODO Tests
-def calculate_age_in_months(
-    current_date_in_floored_months: int, review_datetime: datetime
-) -> int:
-    return current_date_in_floored_months - datetime_to_floored_months(review_datetime)
+SCORE_COL_LABELS = [GENERAL_SCORE_LABEL, *schemas.ScoreAspects.model_fields.keys()]
 
 
 # TODO Tests
-def calculate_review_weight(review_age_in_months: int) -> float:
-    return X_TO_LN_X[25 - review_age_in_months]
+def calculate_individual_weight(
+    current_date: date, review_date: date
+) -> Optional[float]:
+    review_age_months = (
+        current_date.year * 12
+        + current_date.month
+        - (review_date.year * 12 + review_date.month)
+    )
+    return AGE_MONTHS_TO_WEIGHT[review_age_months] if review_age_months < 24 else None
 
 
+# TODO Clearer names for "...individual..."
 # TODO Tests
-def calculate_accommodation_ratings(
+def calculate_accommodation_scores(
     reviews: list[schemas.Review],
-) -> schemas.AccommodationRatings:
+) -> schemas.AccommodationScores:
     if len(reviews) == 0:
         raise ValueError("Cannot calculate rating with zero number of reviews")
 
-    # Create age[month] array
-    # score_weights = np.array((len(reviews),))
-    general_score_weighted_sum = 0.0
-    sum_of_weights = 0.0
-    old_review_general_scores = []
-    current_date_in_floored_months = datetime_to_floored_months(datetime.now())
+    scores = [
+        {
+            DATE_LABEL: review.created_at.date(),
+            GENERAL_SCORE_LABEL: review.general_score,
+            **review.score_aspects.model_dump(),
+        }
+        for review in reviews
+    ]
+    scores = pd.DataFrame(scores, columns=[DATE_LABEL, *SCORE_COL_LABELS])
 
-    # TODO Sub-scores; optimize
-    for review in reviews:
-        review_age_in_months = calculate_age_in_months(
-            current_date_in_floored_months, review.created_at
-        )
-        if review_age_in_months < 24:
-            review_weight = calculate_review_weight(review_age_in_months)
-            general_score_weighted_sum += review_weight * review.general_score
-            sum_of_weights += review_weight
-        else:
-            old_review_general_scores.append(review.general_score)
-
-    if old_review_general_scores:
-        old_reviews_general_score_weighted_sum = (
-            OLD_REVIEWS_WEIGHT
-            * sum(old_review_general_scores)
-            / len(old_review_general_scores)
-        )
-        general_score_weighted_sum += old_reviews_general_score_weighted_sum
-        sum_of_weights += OLD_REVIEWS_WEIGHT
-
-    general_score_weighted_avg = round(
-        general_score_weighted_sum / sum_of_weights, SCORE_ROUNDING_NDIGITS
+    scores[WEIGHT_LABEL] = scores[DATE_LABEL].apply(
+        partial(calculate_individual_weight, date.today())
     )
+    scores.drop(DATE_LABEL, axis=1, inplace=True)
+    weight_isna = scores[WEIGHT_LABEL].isna()
 
-    return schemas.AccommodationRatings(general_score=general_score_weighted_avg)
+    scores.loc[~weight_isna, SCORE_COL_LABELS] = scores[~weight_isna][
+        SCORE_COL_LABELS
+    ].multiply(scores[~weight_isna][WEIGHT_LABEL], axis="index")
+    weights_sum = scores[WEIGHT_LABEL].sum()
+    individual_score_weighted_sums = scores[~weight_isna].sum()
+
+    if weight_isna.sum() > 0:
+        weights_sum += OLD_REVIEWS_WEIGHT
+        old_score_averages_times_weight = (
+            scores[weight_isna].mean().multiply(OLD_REVIEWS_WEIGHT)
+        )
+
+    weighted_averages = (
+        (
+            individual_score_weighted_sums.add(old_score_averages_times_weight)
+            / weights_sum
+        )
+        .astype(float)
+        .round(SCORE_ROUNDING_NDIGITS)
+    )
+    weighted_averages.fillna(0.0, inplace=True)
+
+    return schemas.AccommodationScores(
+        general_score=weighted_averages[GENERAL_SCORE_LABEL],
+        score_aspects=schemas.ScoreAspects(
+            **weighted_averages[list(schemas.ScoreAspects.model_fields.keys())]
+        ),
+    )
