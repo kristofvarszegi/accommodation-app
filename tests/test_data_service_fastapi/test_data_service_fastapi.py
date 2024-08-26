@@ -48,6 +48,7 @@ def test_get_review():
         "accommodationId": "c9b7158b-1b07-4941-82d1-9ef8221e649d",
         "createdAt": "2018-05-26T00:00:00.000Z",
         "generalScore": 8.0,
+        "scoreAspects": "{}"
     }
 
 
@@ -70,53 +71,62 @@ def test_get_reviews_for_accommodation():
             "accommodationId": "c9b7158b-1b07-4941-82d1-9ef8221e649d",
             "createdAt": "2018-05-07T00:00:00.000Z",
             "generalScore": 9,
+            "scoreAspects": "{}"
         },
         {
             "id": "6f102399-70dd-4302-be62-8186bd3149f0",
             "accommodationId": "c9b7158b-1b07-4941-82d1-9ef8221e649d",
             "createdAt": "2018-05-26T00:00:00.000Z",
             "generalScore": 8,
+            "scoreAspects": "{}"
         },
         {
             "id": "695fdea1-83e1-4744-9415-aa3e39b79691",
             "accommodationId": "c9b7158b-1b07-4941-82d1-9ef8221e649d",
             "createdAt": "2018-09-23T00:00:00.000Z",
             "generalScore": 8,
+            "scoreAspects": "{}"
         },
         {
             "id": "774673fd-d3f8-471c-a914-66c2afc83e01",
             "accommodationId": "c9b7158b-1b07-4941-82d1-9ef8221e649d",
             "createdAt": "2018-10-03T00:00:00.000Z",
             "generalScore": 9,
+            "scoreAspects": "{}"
         },
         {
             "id": "f3fce35a-af4f-40c1-9bda-ce0add8cc888",
             "accommodationId": "c9b7158b-1b07-4941-82d1-9ef8221e649d",
             "createdAt": "2019-09-25T00:00:00.000Z",
             "generalScore": 8,
+            "scoreAspects": "{}"
         },
         {
             "id": "3f43180b-9834-46e7-aa8b-6ee56242289b",
             "accommodationId": "c9b7158b-1b07-4941-82d1-9ef8221e649d",
             "createdAt": "2020-06-26T00:00:00.000Z",
             "generalScore": 7,
+            "scoreAspects": "{}"
         },
         {
             "id": "114e099c-a4ee-4373-93f0-562e062666e2",
             "accommodationId": "c9b7158b-1b07-4941-82d1-9ef8221e649d",
             "createdAt": "2022-11-02T00:00:00.000Z",
             "generalScore": 9,
+            "scoreAspects": "{}"
         },
         {
             "id": "f24e821f-6e60-48b0-9101-d32c1e0520ff",
             "accommodationId": "c9b7158b-1b07-4941-82d1-9ef8221e649d",
             "createdAt": "2023-01-06T00:00:00.000Z",
             "generalScore": 9,
+            "scoreAspects": "{}"
         },
         {
             "id": "1f5ae0a4-ddf5-4f73-b57f-eee305034564",
             "accommodationId": "c9b7158b-1b07-4941-82d1-9ef8221e649d",
             "createdAt": "2023-01-22T00:00:00.000Z",
             "generalScore": 8,
+            "scoreAspects": "{}"
         },
     ]

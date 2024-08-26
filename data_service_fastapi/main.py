@@ -45,7 +45,8 @@ def get_accommodation(
 
 
 @app.get(
-    "/accommodations/{accommodation_id}/reviews/", response_model=list[schemas.Review]
+    "/accommodations/{accommodation_id}/reviews/",
+    response_model=list[schemas.Review],
 )
 def get_reviews_for_accommodation(
     accommodation_id: uuid.UUID,
@@ -55,7 +56,7 @@ def get_reviews_for_accommodation(
     # TODO Raise 404 if the accommodation does not exist & unit test
 
     reviews = repository.list_for_accommodation(session, accommodation_id)
-    if len(reviews) == 0:  # TODO Test
+    if len(reviews) == 0:  # TODO Write unit test
         raise HTTPException(
             status_code=HTTPStatus.NOT_FOUND,
             detail="No reviews found for accommodation",
@@ -77,7 +78,7 @@ def get_review(
 
     review = repository.get(session, review_id)
 
-    if review is None:  # TODO Test
+    if review is None:  # TODO Write unit test
         raise HTTPException(status_code=HTTPStatus.NOT_FOUND, detail="Review not found")
 
     if review.accommodation_id != accommodation_id:

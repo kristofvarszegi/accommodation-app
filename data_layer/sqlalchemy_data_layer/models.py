@@ -17,7 +17,14 @@ class SqlAlchemyAccommodation(Base):
     __tablename__ = ACCOMMODATIONS_TABLE_NAME
 
     id: Mapped[uuid.UUID] = mapped_column(primary_key=True)
+
+    default_price: Mapped[int]
     name: Mapped[str]
+    popularity_score: Mapped[float]
+    slug: Mapped[str]
+    stars: Mapped[int]
+    zoover_gold_award: Mapped[bool]
+
     reviews = relationship("SqlAlchemyReview")
 
 
@@ -31,6 +38,9 @@ class SqlAlchemyReview(Base):
 
     created_at: Mapped[datetime]
     general_score: Mapped[float]
+    text: Mapped[str]
+    title: Mapped[Optional[str]]
+    zoover_review_id: Mapped[int]
 
     # The sub-scores are flattened so they are direct members of the model instead of a
     # "score_aspects" field. This makes the score lookup easier, but needs a DB
