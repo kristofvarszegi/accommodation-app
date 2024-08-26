@@ -3,10 +3,10 @@ from http import HTTPStatus
 
 from fastapi import Depends, FastAPI, HTTPException
 
-from data_layer import schemas
 from data_layer.config import create_session, get_review_repository
 from data_layer.repositories import IReviewRepository
-from scoring.accommodation_ratings import calculate_accommodation_scores
+from scoring import schemas
+from scoring.accommodation_scores import calculate_accommodation_scores
 
 app = FastAPI()
 

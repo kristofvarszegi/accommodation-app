@@ -5,6 +5,7 @@ from typing import Optional
 
 import pandas as pd
 
+import scoring.schemas
 from data_layer import schemas
 
 SCORE_ROUNDING_NDIGITS = 2
@@ -22,7 +23,7 @@ WEIGHT_LABEL = "weight"
 SCORE_COL_LABELS = [GENERAL_SCORE_LABEL, *schemas.ScoreAspects.model_fields.keys()]
 
 
-# TODO Tests
+# TODO Write unit test
 def calculate_individual_weight(
     current_date: date, review_date: date
 ) -> Optional[float]:
@@ -35,10 +36,10 @@ def calculate_individual_weight(
 
 
 # TODO Clearer names for "...individual..."
-# TODO Tests
+# TODO Write unit test
 def calculate_accommodation_scores(
     reviews: list[schemas.Review],
-) -> schemas.AccommodationScores:
+) -> scoring.schemas.AccommodationScores:
     if len(reviews) == 0:
         raise ValueError("Cannot calculate rating with zero number of reviews")
 
@@ -80,7 +81,7 @@ def calculate_accommodation_scores(
     )
     weighted_averages.fillna(0.0, inplace=True)
 
-    return schemas.AccommodationScores(
+    return scoring.schemas.AccommodationScores(
         general_score=weighted_averages[GENERAL_SCORE_LABEL],
         score_aspects=schemas.ScoreAspects(
             **weighted_averages[list(schemas.ScoreAspects.model_fields.keys())]

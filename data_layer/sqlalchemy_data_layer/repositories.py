@@ -1,4 +1,5 @@
 import uuid
+from typing import Optional
 
 from sqlalchemy.orm import Session
 
@@ -45,9 +46,9 @@ class SqlAlchemyReviewRepository(IReviewRepository):
         session.add(SqlAlchemyReview(**fields))
 
     @staticmethod
-    def get(session: Session, review_id: uuid.UUID) -> schemas.Review:
-        review = session.query(SqlAlchemyReview).filter_by(review_id=review_id).first()
-        return None if review is None else schemas.Review(**review.__dict__)
+    def get(session: Session, review_id: uuid.UUID) -> Optional[schemas.Review]:
+        review = session.query(SqlAlchemyReview).filter_by(id=review_id).first()
+        return None if review is None else review.to_schema()
 
     @staticmethod
     def list_for_accommodation(
@@ -58,7 +59,7 @@ class SqlAlchemyReviewRepository(IReviewRepository):
             .filter_by(accommodation_id=accommodation_id)
             .all()
         )
-        reviews = [schemas.Review(**review.__dict__) for review in reviews]
+        reviews = [review.to_schema() for review in reviews]
         return reviews
 
 

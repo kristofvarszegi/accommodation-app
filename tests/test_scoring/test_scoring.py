@@ -1,6 +1,6 @@
 from freezegun import freeze_time
 
-from scoring.accommodation_ratings import calculate_accommodation_scores
+from scoring.accommodation_scores import calculate_accommodation_scores
 from tests.conftest import MockReviewRepository
 
 

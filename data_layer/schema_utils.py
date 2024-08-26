@@ -1,7 +1,7 @@
 from datetime import datetime
 
 
-# TODO Tests
+# TODO Write unit tests
 def datetime_to_str(datetime_: datetime) -> str:
     return datetime_.isoformat(timespec="milliseconds").replace(
         "+00:00", "Z"
