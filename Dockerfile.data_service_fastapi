@@ -1,0 +1,14 @@
+FROM python:3.12.3
+
+WORKDIR /code
+
+COPY ./requirements.txt /code/requirements.txt
+
+RUN pip install --no-cache-dir --upgrade -r /code/requirements.txt
+
+COPY ./services/data_service_fastapi /code/services/data_service_fastapi
+COPY ./data_layer /code/data_layer
+
+ENV PYTHONPATH=/code
+
+CMD ["fastapi", "run", "services/data_service_fastapi/main.py", "--port", "80"]

@@ -5,11 +5,16 @@ import click
 from pydantic import BaseModel
 
 from data_layer.schemas import Accommodation, Review
-from data_layer.sqlalchemy_data_layer.database import session_factory
 from data_layer.sqlalchemy_data_layer.repositories import (
     SqlAlchemyAccommodationRepository,
     SqlAlchemyReviewRepository,
 )
+
+from dotenv import load_dotenv
+
+load_dotenv()
+
+from data_layer.sqlalchemy_data_layer.database import session_factory
 
 ITEM_TYPE_TO_CLASS = {"accommodations": Accommodation, "reviews": Review}
 ITEM_TYPE_TO_REPOSITORY_CLASS = {
