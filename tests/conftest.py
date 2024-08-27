@@ -1,5 +1,6 @@
 import uuid
 from http import HTTPStatus
+from typing import Optional
 
 from fastapi import HTTPException
 
@@ -156,11 +157,8 @@ class MockReviewRepository(IReviewRepository):
             return []
 
     @staticmethod
-    def get(session, review_id: uuid.UUID) -> schemas.Review:
+    def get(session, review_id: uuid.UUID) -> Optional[schemas.Review]:
         for review in MockReviewRepository.REVIEWS:
             if review.id == review_id:
                 return review
-        raise HTTPException(
-            status_code=HTTPStatus.NOT_FOUND,
-            detail="No reviews found for accommodation",
-        )
+        return None

@@ -67,7 +67,7 @@ def test_get_review():
     assert response.json() == {
         "id": "6f102399-70dd-4302-be62-8186bd3149f0",
         "accommodationId": "c9b7158b-1b07-4941-82d1-9ef8221e649d",
-        "createdAt": "2018-05-26T00:00:00.000Z",
+        "createdAt": "2018-05-26T00:00:00.000000+00:00",
         "generalScore": 8.0,
         "text": "Dummy text 2",
         "title": "Dummy Title 2",
@@ -76,12 +76,12 @@ def test_get_review():
     }
 
 
-def test_get_review_does_not_exist_for_accommodation():
+def test_get_review_returns_not_found_when_review_does_not_exist():
     response = client.get(
-        "/accommodations/c9b7158b-1b07-4941-82d1-9ef8221e649d/reviews/8d869865-9356-49a3-b33d-d635278a839d"
+        "/accommodations/00000000-0000-0000-0000-000000000000/reviews/00000000-0000-0000-0000-000000000000"
     )
     assert response.status_code == HTTPStatus.NOT_FOUND
-    assert response.json()["detail"] == "No reviews found for accommodation"
+    assert response.json()["detail"] == "Review not found"
 
 
 def test_get_reviews_for_accommodation():
@@ -93,7 +93,7 @@ def test_get_reviews_for_accommodation():
         {
             "id": "2cf4abc9-7b7c-4876-8d85-965eebeca34d",
             "accommodationId": "c9b7158b-1b07-4941-82d1-9ef8221e649d",
-            "createdAt": "2018-05-07T00:00:00.000Z",
+            "createdAt": "2018-05-07T00:00:00.000000+00:00",
             "generalScore": 9.0,
             "text": "Dummy text 1",
             "title": "Dummy Title 1",
@@ -103,7 +103,7 @@ def test_get_reviews_for_accommodation():
         {
             "id": "6f102399-70dd-4302-be62-8186bd3149f0",
             "accommodationId": "c9b7158b-1b07-4941-82d1-9ef8221e649d",
-            "createdAt": "2018-05-26T00:00:00.000Z",
+            "createdAt": "2018-05-26T00:00:00.000000+00:00",
             "generalScore": 8.0,
             "text": "Dummy text 2",
             "title": "Dummy Title 2",
@@ -113,7 +113,7 @@ def test_get_reviews_for_accommodation():
         {
             "id": "695fdea1-83e1-4744-9415-aa3e39b79691",
             "accommodationId": "c9b7158b-1b07-4941-82d1-9ef8221e649d",
-            "createdAt": "2018-09-23T00:00:00.000Z",
+            "createdAt": "2018-09-23T00:00:00.000000+00:00",
             "generalScore": 8.0,
             "text": "Dummy text 3",
             "title": "Dummy Title 3",
@@ -123,7 +123,7 @@ def test_get_reviews_for_accommodation():
         {
             "id": "774673fd-d3f8-471c-a914-66c2afc83e01",
             "accommodationId": "c9b7158b-1b07-4941-82d1-9ef8221e649d",
-            "createdAt": "2018-10-03T00:00:00.000Z",
+            "createdAt": "2018-10-03T00:00:00.000000+00:00",
             "generalScore": 9.0,
             "text": "Dummy text 4",
             "title": "Dummy Title 4",
@@ -133,7 +133,7 @@ def test_get_reviews_for_accommodation():
         {
             "id": "f3fce35a-af4f-40c1-9bda-ce0add8cc888",
             "accommodationId": "c9b7158b-1b07-4941-82d1-9ef8221e649d",
-            "createdAt": "2019-09-25T00:00:00.000Z",
+            "createdAt": "2019-09-25T00:00:00.000000+00:00",
             "generalScore": 8.0,
             "text": "Dummy text 5",
             "title": "Dummy Title 5",
@@ -143,7 +143,7 @@ def test_get_reviews_for_accommodation():
         {
             "id": "3f43180b-9834-46e7-aa8b-6ee56242289b",
             "accommodationId": "c9b7158b-1b07-4941-82d1-9ef8221e649d",
-            "createdAt": "2020-06-26T00:00:00.000Z",
+            "createdAt": "2020-06-26T00:00:00.000000+00:00",
             "generalScore": 7.0,
             "text": "Dummy text 6",
             "title": "Dummy Title 6",
@@ -153,7 +153,7 @@ def test_get_reviews_for_accommodation():
         {
             "id": "114e099c-a4ee-4373-93f0-562e062666e2",
             "accommodationId": "c9b7158b-1b07-4941-82d1-9ef8221e649d",
-            "createdAt": "2022-11-02T00:00:00.000Z",
+            "createdAt": "2022-11-02T00:00:00.000000+00:00",
             "generalScore": 9.0,
             "text": "Dummy text 7",
             "title": "Dummy Title 7",
@@ -163,7 +163,7 @@ def test_get_reviews_for_accommodation():
         {
             "id": "f24e821f-6e60-48b0-9101-d32c1e0520ff",
             "accommodationId": "c9b7158b-1b07-4941-82d1-9ef8221e649d",
-            "createdAt": "2023-01-06T00:00:00.000Z",
+            "createdAt": "2023-01-06T00:00:00.000000+00:00",
             "generalScore": 9.0,
             "text": "Dummy text 8",
             "title": "Dummy Title 8",
@@ -173,7 +173,7 @@ def test_get_reviews_for_accommodation():
         {
             "id": "1f5ae0a4-ddf5-4f73-b57f-eee305034564",
             "accommodationId": "c9b7158b-1b07-4941-82d1-9ef8221e649d",
-            "createdAt": "2023-01-22T00:00:00.000Z",
+            "createdAt": "2023-01-22T00:00:00.000000+00:00",
             "generalScore": 8.0,
             "text": "Dummy text 9",
             "title": "Dummy Title 9",

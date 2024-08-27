@@ -1,5 +1,6 @@
 import abc
 import uuid
+from typing import Optional
 
 from data_layer import schemas
 
@@ -29,7 +30,7 @@ class IReviewRepository(abc.ABC):
 
     @staticmethod
     @abc.abstractmethod
-    def get(session, review_id: uuid.UUID) -> schemas.Review:
+    def get(session, review_id: uuid.UUID) -> Optional[schemas.Review]:
         raise NotImplementedError
 
     @staticmethod

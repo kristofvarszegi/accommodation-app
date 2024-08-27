@@ -41,7 +41,7 @@ def test_get_scores():
     }
 
 
-def test_get_scores_returns_all_zeros_if_accommodation_has_no_reviews():
+def test_get_scores_returns_all_zeros_when_no_reviews():
     response = client.get(
         "/accommodations/f4fec2d6-61af-4bfe-ae9f-2ec6881229cb/scores/"
     )
