@@ -1,25 +1,26 @@
 import json
 from typing import Type
 
-
 import click
-from dotenv import load_dotenv
 from pydantic import BaseModel
 
 from data_layer.schemas import Accommodation, Review
-from data_layer.sqlalchemy_data_layer.database import session_factory
 from data_layer.sqlalchemy_data_layer.repositories import (
     SqlAlchemyAccommodationRepository,
     SqlAlchemyReviewRepository,
 )
+
+from dotenv import load_dotenv
+
+load_dotenv()
+
+from data_layer.sqlalchemy_data_layer.database import session_factory
 
 ITEM_TYPE_TO_CLASS = {"accommodations": Accommodation, "reviews": Review}
 ITEM_TYPE_TO_REPOSITORY_CLASS = {
     "accommodations": SqlAlchemyAccommodationRepository,
     "reviews": SqlAlchemyReviewRepository,
 }
-
-load_dotenv()
 
 
 def load_items(items_file: click.File, klass: Type[BaseModel]) -> list[BaseModel]:
