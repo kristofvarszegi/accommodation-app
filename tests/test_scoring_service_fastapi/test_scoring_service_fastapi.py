@@ -4,7 +4,7 @@ from fastapi.testclient import TestClient
 from freezegun import freeze_time
 
 from data_layer.config import get_review_repository
-from scoring_service_fastapi.main import app
+from services.scoring_service_fastapi.main import app
 from tests.conftest import MockReviewRepository
 
 client = TestClient(app)
@@ -28,6 +28,26 @@ def test_get_scores():
     assert response.status_code == HTTPStatus.OK
     assert response.json() == {
         "generalScore": 8.63,
+        "scoreAspects": {
+            "childFriendly": 0.0,
+            "food": 0.0,
+            "hygiene": 0.0,
+            "location": 0.0,
+            "pool": 0.0,
+            "priceQuality": 0.0,
+            "room": 0.0,
+            "service": 0.0,
+        },
+    }
+
+
+def test_get_scores_returns_all_zeros_if_accommodation_has_no_reviews():
+    response = client.get(
+        "/accommodations/f4fec2d6-61af-4bfe-ae9f-2ec6881229cb/scores/"
+    )
+    assert response.status_code == HTTPStatus.OK
+    assert response.json() == {
+        "generalScore": 0.0,
         "scoreAspects": {
             "childFriendly": 0.0,
             "food": 0.0,

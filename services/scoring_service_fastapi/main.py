@@ -1,7 +1,6 @@
 import uuid
-from http import HTTPStatus
 
-from fastapi import Depends, FastAPI, HTTPException
+from fastapi import Depends, FastAPI
 
 from data_layer.config import create_session, get_review_repository
 from data_layer.repositories import IReviewRepository
@@ -27,10 +26,8 @@ def get_accommodation_scores(
 ):
     reviews = repository.list_for_accommodation(session, accommodation_id)
     if len(reviews) == 0:
-        # TODO Rather just zero
-        raise HTTPException(
-            status_code=HTTPStatus.NOT_FOUND,
-            detail="No reviews found for accommodation",
+        return schemas.AccommodationScores(
+            general_score=0.0, score_aspects=schemas.ScoreAspects()
         )
 
     accommodation_scores = calculate_accommodation_scores(reviews)

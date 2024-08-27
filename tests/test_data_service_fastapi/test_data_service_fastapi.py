@@ -3,7 +3,7 @@ from http import HTTPStatus
 from fastapi.testclient import TestClient
 
 from data_layer.config import get_accommodation_repository, get_review_repository
-from data_service_fastapi.main import app
+from services.data_service_fastapi.main import app
 from tests.conftest import MockAccommodationRepository, MockReviewRepository
 
 client = TestClient(app)

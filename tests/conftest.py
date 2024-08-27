@@ -153,10 +153,7 @@ class MockReviewRepository(IReviewRepository):
         if accommodation_id == MockReviewRepository.ACCOMMODATION_1_ID:
             return MockReviewRepository.REVIEWS
         else:
-            raise HTTPException(
-                status_code=HTTPStatus.NOT_FOUND,
-                detail="No reviews found for accommodation",
-            )
+            return []
 
     @staticmethod
     def get(session, review_id: uuid.UUID) -> schemas.Review:

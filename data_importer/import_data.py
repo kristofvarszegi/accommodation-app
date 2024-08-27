@@ -2,6 +2,7 @@ import json
 from typing import Type
 
 import click
+from dotenv import load_dotenv
 from pydantic import BaseModel
 
 from data_layer.schemas import Accommodation, Review
@@ -9,8 +10,6 @@ from data_layer.sqlalchemy_data_layer.repositories import (
     SqlAlchemyAccommodationRepository,
     SqlAlchemyReviewRepository,
 )
-
-from dotenv import load_dotenv
 
 load_dotenv()
 
