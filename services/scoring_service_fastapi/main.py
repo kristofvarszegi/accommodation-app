@@ -5,7 +5,7 @@ from fastapi import Depends, FastAPI
 from data_layer.config import create_session, get_review_repository
 from data_layer.repositories import IReviewRepository
 from scoring import schemas
-from scoring.accommodation_scores import calculate_accommodation_scores
+from scoring.scoring import calculate_accommodation_scores
 
 app = FastAPI()
 
@@ -29,6 +29,5 @@ def get_accommodation_scores(
         return schemas.AccommodationScores(
             general_score=0.0, score_aspects=schemas.ScoreAspects()
         )
-
     accommodation_scores = calculate_accommodation_scores(reviews)
     return accommodation_scores

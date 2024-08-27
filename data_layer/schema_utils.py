@@ -1,8 +1,8 @@
 from datetime import datetime
 
 
-# TODO Write unit tests
+# TODO Write unit test
+# TODO Figure out how to reproduce the date format that is in the data files
+# in a clean way
 def datetime_to_str(datetime_: datetime) -> str:
-    return datetime_.isoformat(timespec="milliseconds").replace(
-        "+00:00", "Z"
-    )  # TODO Find how to have "Z" in a way other than string replacement
+    return datetime_.isoformat(timespec="microseconds")

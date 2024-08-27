@@ -23,7 +23,6 @@ WEIGHT_LABEL = "weight"
 SCORE_COL_LABELS = [GENERAL_SCORE_LABEL, *schemas.ScoreAspects.model_fields.keys()]
 
 
-# TODO Write unit test
 def calculate_individual_weight(
     current_date: date, review_date: date
 ) -> Optional[float]:

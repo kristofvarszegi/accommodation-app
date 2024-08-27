@@ -1,7 +1,7 @@
 import json
 import uuid
 from datetime import datetime
-from typing import Optional, Union
+from typing import Optional
 
 from pydantic import BaseModel, ConfigDict, field_serializer, field_validator
 from pydantic.alias_generators import to_camel
@@ -9,7 +9,7 @@ from pydantic.alias_generators import to_camel
 from data_layer.schema_utils import datetime_to_str
 
 
-# TODO Write unit tests
+# TODO Write unit test
 class MappedCamelCaseBaseModel(BaseModel):
     model_config = ConfigDict(
         alias_generator=to_camel,
@@ -53,12 +53,10 @@ class Review(MappedCamelCaseBaseModel):
 
     score_aspects: ScoreAspects
 
-    # TODO Write unit test
     @field_validator("score_aspects", mode="before")
-    def deserialize_score_aspects(cls, score_aspects: Union[str, dict]):
+    def deserialize_score_aspects(cls, score_aspects: str):
         return json.loads(score_aspects)
 
-    # TODO Write unit test
     @field_serializer("score_aspects")
     def serialize_score_aspects(score_aspects: ScoreAspects):
-        return score_aspects.model_dump_json(exclude_none=True)
+        return score_aspects.model_dump_json(exclude_none=True, by_alias=True)
