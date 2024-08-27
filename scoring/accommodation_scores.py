@@ -12,7 +12,7 @@ SCORE_ROUNDING_NDIGITS = 2
 
 # Pre-compute weight values so only a lookup is needed when calculating scores
 AGE_MONTHS_TO_WEIGHT = {
-    age_months: math.log(25 - age_months) for age_months in range(0, 23)
+    age_months: math.log(25 - age_months) for age_months in range(0, 24)
 }
 OLD_REVIEWS_WEIGHT = math.log(1.77)
 

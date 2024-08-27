@@ -6,11 +6,9 @@ COPY ./requirements.txt /code/requirements.txt
 
 RUN pip install --no-cache-dir --upgrade -r /code/requirements.txt
 
-COPY ./data_service_fastapi /code/data_service_fastapi
+COPY ./services/data_service_fastapi /code/services/data_service_fastapi
 COPY ./data_layer /code/data_layer
-# TODO DB credentials from secure store
-COPY ./.env /code/.env
 
 ENV PYTHONPATH=/code
 
-CMD ["fastapi", "run", "data_service_fastapi/main.py", "--port", "80"]
+CMD ["fastapi", "run", "services/data_service_fastapi/main.py", "--port", "80"]

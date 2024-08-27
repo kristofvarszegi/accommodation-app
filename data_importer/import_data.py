@@ -1,7 +1,9 @@
 import json
 from typing import Type
 
+
 import click
+from dotenv import load_dotenv
 from pydantic import BaseModel
 
 from data_layer.schemas import Accommodation, Review
@@ -16,6 +18,8 @@ ITEM_TYPE_TO_REPOSITORY_CLASS = {
     "accommodations": SqlAlchemyAccommodationRepository,
     "reviews": SqlAlchemyReviewRepository,
 }
+
+load_dotenv()
 
 
 def load_items(items_file: click.File, klass: Type[BaseModel]) -> list[BaseModel]:

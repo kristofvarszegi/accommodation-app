@@ -1,11 +1,10 @@
 services:
-
   db:
-    environment:  # TODO DB credentials from secure store
+    environment: # TODO DB credentials from secure store
       - POSTGRES_USER=dev
       - POSTGRES_PASSWORD=12345678
       - POSTGRES_DB=accommodation_app
-    image: postgres:latest
+    image: postgres
     ports:
       - "5432:5432"
     volumes:
@@ -17,10 +16,31 @@ services:
       dockerfile: Dockerfile.data_service_fastapi
     depends_on:
       - db
+    environment: # TODO DB credentials from secure store
+      - DB_USERNAME=dev
+      - DB_PASSWORD=12345678
+      - DB_NAME=accommodation_app
+      - DB_HOST=db
     ports:
       - "80:80"
     volumes:
       - ./:/code:ro
 
+  scoring_service_fastapi:
+    build:
+      context: .
+      dockerfile: Dockerfile.scoring_service_fastapi
+    depends_on:
+      - db
+    environment: # TODO DB credentials from secure store
+      - DB_USERNAME=dev
+      - DB_PASSWORD=12345678
+      - DB_NAME=accommodation_app
+      - DB_HOST=db
+    ports:
+      - "81:81"
+    volumes:
+      - ./:/code:ro
+
 volumes:
-  postgres_data: 
+  postgres_data:
