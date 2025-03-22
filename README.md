@@ -1,4 +1,4 @@
-# Accommodation App
+# Backend for an accommodation browser and rating calculator app
 
 ## Implementation highlights
 
@@ -45,8 +45,8 @@ Run the following commands in an elevated shell:
 
    ```bash
    export PYTHONPATH=$PWD
-   python data_importer/import_data.py accommodations ../Backend\ Tech\ Assignment/accommodations.json
-   python data_importer/import_data.py reviews ../Backend\ Tech\ Assignment/reviews.json
+   python data_importer/import_data.py accommodations ../files/accommodations.json
+   python data_importer/import_data.py reviews ../files/reviews.json
    ```
 
 5. Deactivate the development environment just to see that the services are really independent from the local Python environment:
